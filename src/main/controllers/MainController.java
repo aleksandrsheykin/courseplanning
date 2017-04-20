@@ -1,5 +1,8 @@
 package main.controllers;
 
+import main.services.PlanService;
+import main.services.PlanServiceImpl;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,15 +13,15 @@ import java.io.IOException;
 /**
  * Created by admin on 19.04.2017.
  */
-public class RegistrationController extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/registration.jsp");
-        dispatcher.forward(req, resp);
-    }
+public class MainController extends HttpServlet {
+
+    public static PlanService planService = new PlanServiceImpl();
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("planList", planService.getAllPlans());
+
+        req.getRequestDispatcher("/main.jsp").forward(req, resp);
     }
+
 }
