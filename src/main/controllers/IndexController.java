@@ -17,7 +17,7 @@ public class IndexController extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
         dispatcher.forward(req, resp);
     }
 

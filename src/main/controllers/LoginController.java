@@ -29,10 +29,14 @@ public class LoginController extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
+        logger.debug("login: " + login + " password: "+password );
+
         if (userService.auth(login, password) != null) {
             req.getSession().setAttribute("userLogin", login);
             logger.debug("user: " + login + " is logged" );
             resp.sendRedirect(req.getContextPath() + "/main");
         }
+
+        logger.debug("user: " + login + " is not loggin" );
     }
 }

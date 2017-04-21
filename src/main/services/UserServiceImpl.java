@@ -16,10 +16,9 @@ public class UserServiceImpl implements UserService {
     public User auth(String login, String password) {
         User user = userDao.findUserByLoginAndPassword(login, password);
 
-        if (user != null) {
+        if (user == null) {
             return null;
         }
-        logger.debug("user is not found");
 
         return user;
     }
