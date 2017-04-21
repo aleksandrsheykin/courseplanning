@@ -5,9 +5,9 @@
 <body>
     <h2>Main</h2>
     <a href="/">index</a>
-    <a href="/login">login</a><br/>
-    <a href="/registration">registration</a><br/>
-    <a href="/main">main</a><br/>
+    <a href="login">login</a><br/>
+    <a href="registration">registration</a><br/>
+    <a href="main">main</a><br/>
 
     <table>
         <c:forEach items="${requestScope.planList}" var="plan">
@@ -16,8 +16,8 @@
                 <td><c:out value="${plan.datePlan}"></c:out></td>
                 <td><c:out value="${plan.quantity}"></c:out></td>
                 <td><c:out value="${plan.cost}"></c:out></td>
-                <td><c:out value="${plan.user_id}"></c:out></td>
-                <td><c:out value="${plan.product_id}"></c:out></td>
+                <td><c:out value="${plan.userId}"></c:out></td>
+                <td><c:out value="${plan.productId}"></c:out></td>
             </tr>
         </c:forEach>
     </table>

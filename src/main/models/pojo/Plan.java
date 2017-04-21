@@ -10,16 +10,16 @@ public class Plan {
     private Date datePlan;
     private int quantity;
     private int cost;
-    private int user_id;
-    private int product_id;
+    private int userId;
+    private int productId;
 
-    public Plan(Integer id_plan, Date datePlan, int quantity, int cost, int user_id, int product_id) {
+    public Plan(Integer id_plan, Date datePlan, int quantity, int cost, int userId, int productId) {
         this.id_plan = id_plan;
         this.datePlan = datePlan;
         this.quantity = quantity;
         this.cost = cost;
-        this.user_id = user_id;
-        this.product_id = product_id;
+        this.userId = userId;
+        this.productId = productId;
     }
 
     public Integer getId_plan() {
@@ -55,18 +55,18 @@ public class Plan {
     }
 
     public int getUserId() {
-        return user_id;
+        return userId;
     }
 
     public void setUserId(int user) {
-        this.user_id = user;
+        this.userId = user;
     }
 
     public int getProductId() {
-        return product_id;
+        return productId;
     }
 
     public void setProductId(int product_id) {
-        this.product_id = product_id;
+        this.productId = product_id;
     }
 }

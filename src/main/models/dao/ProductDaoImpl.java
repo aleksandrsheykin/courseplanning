@@ -2,7 +2,6 @@ package main.models.dao;
 
 import main.models.connection.DBConnection;
 import main.models.pojo.Product;
-import main.models.pojo.User;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 

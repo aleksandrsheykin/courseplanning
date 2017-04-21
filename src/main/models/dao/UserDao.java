@@ -13,4 +13,5 @@ public interface UserDao {
     public boolean update(User user);
     public boolean delete(User user);
     public boolean insert(User user);
+    User findUserByLoginAndPassword(String login, String password);
 }

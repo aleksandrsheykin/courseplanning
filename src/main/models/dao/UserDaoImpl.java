@@ -17,11 +17,7 @@ import java.util.List;
  */
 public class UserDaoImpl implements UserDao {
 
-    static {
-        PropertyConfigurator.configure("log4j.properties");
-    }
     private static Logger logger = Logger.getLogger(UserDaoImpl.class);
-
 
     public List<User> getAll() {
         Connection connection = DBConnection.initConnection();
@@ -130,6 +126,34 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             logger.warn("SQLException in User.insert()");
             return false;
+        }
+    }
+
+    public User findUserByLoginAndPassword(String login, String password) {
+        Connection connection = DBConnection.initConnection();
+        try {
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("select * from users where user_mail = ? and user_password = ?");
+            preparedStatement.setString(1, login);
+            preparedStatement.setString(2, password);
+
+            ResultSet result = preparedStatement.executeQuery();
+
+            if (result.next()) {
+                return new User(
+                        result.getInt("user_id"),
+                        result.getString("user_firstname"),
+                        result.getString("user_lastname"),
+                        result.getString("user_mail"),
+                        result.getString("user_password"),
+                        result.getInt("user_limit"),
+                        result.getBoolean("user_is_admin")
+                );
+            }
+            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

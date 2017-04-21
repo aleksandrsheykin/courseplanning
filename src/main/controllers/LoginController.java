@@ -1,5 +1,9 @@
 package main.controllers;
 
+import main.services.UserService;
+import main.services.UserServiceImpl;
+import org.apache.log4j.Logger;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +15,9 @@ import java.io.IOException;
  * Created by admin on 19.04.2017.
  */
 public class LoginController extends HttpServlet {
+    private static Logger logger = Logger.getLogger(LoginController.class);
+    private static UserService userService = new UserServiceImpl();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
@@ -19,6 +26,13 @@ public class LoginController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        String login = req.getParameter("login");
+        String password = req.getParameter("password");
+
+        if (userService.auth(login, password) != null) {
+            req.getSession().setAttribute("userLogin", login);
+            logger.debug("user: " + login + " is logged" );
+            resp.sendRedirect(req.getContextPath() + "/main");
+        }
     }
 }

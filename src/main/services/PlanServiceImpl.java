@@ -14,6 +14,6 @@ public class PlanServiceImpl implements PlanService {
     public static PlanDao planDao = new PlanDaoImpl();
 
     public List<Plan> getAllPlans() {
-        return planDao.getAll();
+        return planDao.getAll(true);
     }
 }

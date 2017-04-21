@@ -16,12 +16,16 @@ public class PlanDaoImpl implements PlanDao {
 
     private static Logger logger = Logger.getLogger(PlanDaoImpl.class);
 
-    public List<Plan> getAll() {
+    public List<Plan> getAll(boolean joinProduct) {
         Connection connection = DBConnection.initConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("select *"+
-                    " from plans");
-
+            String sqlText;
+            if (joinProduct) {
+                sqlText = "select * from plans pl left join products pr on pr.product_id = pl.plan_product_id";
+            } else {
+                sqlText = "select * from plans";
+            }
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlText);
             ResultSet result = preparedStatement.executeQuery();
 
             List<Plan> listPlan = new ArrayList<Plan>();
