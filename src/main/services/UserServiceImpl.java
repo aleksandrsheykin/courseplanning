@@ -22,4 +22,9 @@ public class UserServiceImpl implements UserService {
 
         return user;
     }
+
+    public boolean registration(String mail, String password, String firstName, String lastName, Integer limit) {
+        Integer userId = userDao.insert(firstName, lastName, mail, password, limit);
+        return userId>0?true:false;
+    }
 }

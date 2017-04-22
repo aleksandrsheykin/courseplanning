@@ -12,6 +12,7 @@ public interface UserDao {
     public User get(int id);
     public boolean update(User user);
     public boolean delete(User user);
-    public boolean insert(User user);
+    public boolean insert(String firsName, String lastName, String mail, String password, Integer limit, boolean isAdmin, Integer idUser);
+    public Integer insert(String firsName, String lastName, String mail, String password, Integer limit);
     User findUserByLoginAndPassword(String login, String password);
 }

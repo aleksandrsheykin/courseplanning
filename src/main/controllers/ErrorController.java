@@ -12,17 +12,12 @@ import java.io.IOException;
 /**
  * Created by admin on 22.04.2017.
  */
-public class AdminPanelController extends HttpServlet {
-    private static Logger logger = Logger.getLogger(AdminPanelController.class);
+public class ErrorController extends HttpServlet {
+    private static Logger logger = Logger.getLogger(ErrorController.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/adminPanel.jsp");
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/error.jsp");
         dispatcher.forward(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
     }
 }

@@ -108,24 +108,45 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    public boolean insert(User user) {
+    public boolean insert(String firsName, String lastName, String mail, String password, Integer limit, boolean isAdmin, Integer idUser) {
         Connection connection = DBConnection.initConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("insert users (" +
                     " user_firstName, user_lastName, user_mail, user_password, user_limit, user_is_admin, user_id)" +
                     " = (?, ?, ?, ?, ?, ?, ?)");
-            preparedStatement.setString(1, user.getFirstName());
-            preparedStatement.setString(2, user.getLastName());
-            preparedStatement.setString(3, user.getMail());
-            preparedStatement.setString(4, user.getPassword());
-            preparedStatement.setInt(5, user.getLimit());
-            preparedStatement.setBoolean(6, user.isIs_admin());
-            preparedStatement.setInt(7, user.getId_user());
+            preparedStatement.setString(1, firsName);
+            preparedStatement.setString(2, lastName);
+            preparedStatement.setString(3, mail);
+            preparedStatement.setString(4, password);
+            preparedStatement.setInt(5, limit);
+            preparedStatement.setBoolean(6, isAdmin);
+            preparedStatement.setInt(7, idUser);
             preparedStatement.executeQuery();
             return true;
         } catch (SQLException e) {
             logger.warn("SQLException in User.insert()");
             return false;
+        }
+    }
+
+    public Integer insert(String firsName, String lastName, String mail, String password, Integer limit) {
+        Connection connection = DBConnection.initConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("insert users (" +
+                    " user_firstName, user_lastName, user_mail, user_password, user_limit, user_is_admin)" +
+                    " = (?, ?, ?, ?, ?, ?) RETURNING user_id");
+            preparedStatement.setString(1, firsName);
+            preparedStatement.setString(2, lastName);
+            preparedStatement.setString(3, mail);
+            preparedStatement.setString(4, password);
+            preparedStatement.setInt(5, limit);
+            preparedStatement.setBoolean(6, false);
+            ResultSet result = preparedStatement.executeQuery();
+            result.next();
+            return result.getInt(1);
+        } catch (SQLException e) {
+            logger.warn("SQLException in User.insert()");
+            return -1;
         }
     }
 
