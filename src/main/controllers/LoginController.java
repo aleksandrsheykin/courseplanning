@@ -1,5 +1,6 @@
 package main.controllers;
 
+import main.models.pojo.User;
 import main.services.UserService;
 import main.services.UserServiceImpl;
 import org.apache.log4j.Logger;
@@ -29,10 +30,13 @@ public class LoginController extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        logger.debug("login: " + login + " password: "+password );
-
-        if (userService.auth(login, password) != null) {
+        User user = userService.auth(login, password);
+        if (user != null) {
             req.getSession().setAttribute("userLogin", login);
+            if (user.isIs_admin()) {
+                req.getSession().setAttribute("isAdmin", "1");
+                logger.debug("user: " + login + " is admin" );
+            }
             logger.debug("user: " + login + " is logged" );
             resp.sendRedirect(req.getContextPath() + "/main");
         }

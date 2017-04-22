@@ -10,14 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by admin on 19.04.2017.
+ * Created by admin on 22.04.2017.
  */
-public class IndexController extends HttpServlet {
+public class AdminPanelController extends HttpServlet {
     private static Logger logger = Logger.getLogger(IndexController.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/adminPanel.jsp");
         dispatcher.forward(req, resp);
     }
 

@@ -8,6 +8,7 @@
     <a href="login">login</a><br/>
     <a href="registration">registration</a><br/>
     <a href="main">main</a><br/>
+    <a href="logout">logout</a><br/>
 
     <table>
         <c:forEach items="${requestScope.planList}" var="plan">
