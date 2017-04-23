@@ -15,11 +15,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Planning</a>
+            <a class="navbar-brand" href="index">Planning</a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/">Index</a></li>
+                <li><a href="index">Index</a></li>
                 <li><a href="main">Main</a></li>
                 <li><a href="login">Login</a></li>
                 <li class="active"><a href="registration">Registration</a></li>
@@ -41,10 +41,10 @@
 
                     <input type="text" class="form-control" placeholder="firstName" name="firstName" required autofocus>
                     <input type="text" class="form-control" placeholder="lastName" name="lastName" required>
-                    <input type="text" class="form-control" placeholder="limit" name="limit" required>
+                    <input type="number" class="form-control" placeholder="limit" name="limit" required>
                     <input type="email" class="form-control" placeholder="Mail" name="mail" required>
                     <input type="password" class="form-control" placeholder="Password" name="password" required>
-                    <button class="btn btn-lg btn-success btn-block" type="submit">Registration</button>
+                    <button class="btn btn-lg btn-success btn-block" type="submit" name="registration">Registration</button>
                 </form>
 
             </div>

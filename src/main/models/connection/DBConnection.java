@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+
 /**
  * Created by admin on 19.04.2017.
  */
@@ -26,4 +27,5 @@ public class DBConnection {
         }
         return connection;
     }
+
 }

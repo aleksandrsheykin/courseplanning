@@ -132,15 +132,20 @@ public class UserDaoImpl implements UserDao {
     public Integer insert(String firsName, String lastName, String mail, String password, Integer limit) {
         Connection connection = DBConnection.initConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("insert users (" +
-                    " user_firstName, user_lastName, user_mail, user_password, user_limit, user_is_admin)" +
-                    " = (?, ?, ?, ?, ?, ?) RETURNING user_id");
+            logger.debug("mail="+mail+" password="+password+" firsName="+firsName+" lastName="+lastName);
+            logger.debug(limit);
+
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into users (" +
+                    " user_firstname, user_lastname, user_mail, user_password, user_limit, user_is_admin)" +
+                    " values (?, ?, ?, ?, ?, ?) RETURNING user_id");
             preparedStatement.setString(1, firsName);
             preparedStatement.setString(2, lastName);
             preparedStatement.setString(3, mail);
             preparedStatement.setString(4, password);
             preparedStatement.setInt(5, limit);
             preparedStatement.setBoolean(6, false);
+
+            logger.warn(preparedStatement.getMetaData());
             ResultSet result = preparedStatement.executeQuery();
             result.next();
             return result.getInt(1);

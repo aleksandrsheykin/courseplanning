@@ -17,8 +17,13 @@ public class IndexController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
-        dispatcher.forward(req, resp);
+        String userLogin = (String) req.getSession().getAttribute("userLogin");
+        if (userLogin != null) {
+            resp.sendRedirect(req.getContextPath() + "/main");
+        } else {
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
+            dispatcher.forward(req, resp);
+        }
     }
 
     @Override
