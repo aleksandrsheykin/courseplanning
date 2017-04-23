@@ -2,6 +2,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
+<head>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
 <body>
     <h2>Main</h2>
     <a href="/">index</a>

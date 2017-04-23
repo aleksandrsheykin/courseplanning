@@ -20,7 +20,7 @@ public class DBConnection {
         }
         try {
             connection = DriverManager.getConnection(
-                    "jdbc:postgresql://localhost/shopping_planning", "postgres", "");
+                    "jdbc:postgresql://localhost/shopping_planning", "postgres", "1234");
         } catch (SQLException e) {
             e.printStackTrace();
         }
