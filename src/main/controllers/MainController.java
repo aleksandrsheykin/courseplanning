@@ -24,8 +24,17 @@ public class MainController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("planList", planService.getAllPlans());
-
         req.getRequestDispatcher("/main.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Integer deleteId = Integer.parseInt(req.getParameter("deleteId"));
+        logger.debug("deleteId="+deleteId);
+        if (deleteId != null && deleteId > 0) {
+            planService.deletePlanById(deleteId);
+        }
+        resp.sendRedirect(req.getContextPath() + "/main");
     }
 
 }

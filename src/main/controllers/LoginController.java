@@ -42,6 +42,10 @@ public class LoginController extends HttpServlet {
                 req.getSession().setAttribute("isAdmin", "1");
             }
             resp.sendRedirect(req.getContextPath() + "/main");
+        } else {
+            req.setAttribute("errorMsg", "failed login");
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
+            dispatcher.forward(req, resp);
         }
 
     }

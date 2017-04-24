@@ -33,10 +33,19 @@
 
     <div class="starter-template">
         <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
 
                 <table class="table table-striped">
+                    <tr>
+                        <th>plan_id</th>
+                        <th>datePlan</th>
+                        <th>quantity</th>
+                        <th>cost</th>
+                        <th>userId</th>
+                        <th>productId</th>
+                        <th></th><th></th>
+                    </tr>
                     <c:forEach items="${requestScope.planList}" var="plan">
                         <tr>
                             <td><c:out value="${plan.id_plan}"></c:out></td>
@@ -45,12 +54,23 @@
                             <td><c:out value="${plan.cost}"></c:out></td>
                             <td><c:out value="${plan.userId}"></c:out></td>
                             <td><c:out value="${plan.productId}"></c:out></td>
+                            <td>
+                                <a href="edit?id=<c:out value="${plan.id_plan}"></c:out>">edit</a>
+                            </td>
+                            <td>
+                                <form method="POST" name="delete" id="deleteFormId_${plan.id_plan}">
+                                    <input type="hidden" value="${plan.id_plan}" name="deleteId"/>
+                                </form>
+                                <a href="javascript://" onClick="document.getElementById('deleteFormId_${plan.id_plan}').submit(); return false;">
+                                    delete
+                                </a>
+                            </td>
                         </tr>
                     </c:forEach>
                 </table>
 
             </div>
-            <div class="col-md-3"></div>
+            <div class="col-md-2"></div>
         </div>
     </div>
 </div>

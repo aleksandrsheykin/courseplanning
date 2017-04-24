@@ -16,4 +16,8 @@ public class PlanServiceImpl implements PlanService {
     public List<Plan> getAllPlans() {
         return planDao.getAll(true);
     }
+
+    public boolean deletePlanById(Integer id) {
+        return planDao.delete(id);
+    }
 }

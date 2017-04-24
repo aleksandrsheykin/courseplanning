@@ -13,5 +13,6 @@ public interface PlanDao {
     public Plan get(int id);
     public boolean update(Plan plan);
     public boolean delete(Plan plan);
+    public boolean delete(Integer id);
     public boolean insert(Plan plan);
 }

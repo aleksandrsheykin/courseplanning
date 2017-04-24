@@ -36,12 +36,21 @@
             <div class="col-md-4"></div>
             <div class="col-md-4">
 
+                <% String errorMsg = (String) request.getAttribute("errorMsg"); %>
+
                 <form class="form" role="form" action="/planning/login" method="post">
                     <h2 class="form-signin-heading">Login</h2>
-                    <input type="email" class="form-control" placeholder="Mail" name="login" required autofocus>
-                    <input type="password" class="form-control" placeholder="Password" name="password" required>
+                    <div class="form-group <%=(errorMsg != null)?"has-error":"" %>">
+                        <input type="email" class="form-control" placeholder="Mail" name="login" required autofocus>
+                    </div>
+                    <div class="form-group <%=(errorMsg != null)?"has-error":"" %>">
+                        <input type="password" class="form-control" placeholder="Password" name="password" required>
+                    </div>
                     <button class="btn btn-lg btn-primary btn-block" type="submit" name="login">login</button>
                 </form>
+                <% if(errorMsg != null) {%>
+                    <div class="alert alert-danger"><%=errorMsg%></div>
+                <% } %>
 
             </div>
             <div class="col-md-4"></div>

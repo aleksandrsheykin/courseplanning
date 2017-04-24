@@ -16,8 +16,23 @@ public class PlanDaoImpl implements PlanDao {
 
     private static Logger logger = Logger.getLogger(PlanDaoImpl.class);
 
+    public boolean delete(Integer id) {
+        Connection connection = DBConnection.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("Delete from plans " +
+                    " WHERE plan_id = ?");
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeQuery();
+            preparedStatement.close();
+            return true;
+        } catch (SQLException e) {
+            logger.warn("SQLException in Plan.delete()");
+            return false;
+        }
+    }
+
     public List<Plan> getAll(boolean joinProduct) {
-        Connection connection = DBConnection.initConnection();
+        Connection connection = DBConnection.getConnection();
         try {
             String sqlText;
             if (joinProduct) {
@@ -39,6 +54,8 @@ public class PlanDaoImpl implements PlanDao {
                         result.getInt("plan_product_id"))
                 );
             }
+            preparedStatement.close();
+            result.close();
             return listPlan;
 
         } catch (SQLException e) {

@@ -20,7 +20,7 @@ public class UserDaoImpl implements UserDao {
     private static Logger logger = Logger.getLogger(UserDaoImpl.class);
 
     public List<User> getAll() {
-        Connection connection = DBConnection.initConnection();
+        Connection connection = DBConnection.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("select *"+
                     " from users");
@@ -39,6 +39,8 @@ public class UserDaoImpl implements UserDao {
                         result.getBoolean("user_is_admin"))
                 );
             }
+            preparedStatement.close();
+            result.close();
             return listUser;
 
         } catch (SQLException e) {
@@ -48,7 +50,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     public User get(int id) {
-        Connection connection = DBConnection.initConnection();
+        Connection connection = DBConnection.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("select *"+
                     " from users where user_id=?");
@@ -57,15 +59,17 @@ public class UserDaoImpl implements UserDao {
             ResultSet result = preparedStatement.executeQuery();
 
             result.next();
-            return new User(
+            User user = new User(
                     result.getInt("user_id"),
-                    result.getString("user_firstName"),
-                    result.getString("user_lastName"),
+                    result.getString("user_firstname"),
+                    result.getString("user_lastname"),
                     result.getString("user_mail"),
                     result.getString("user_password"),
                     result.getInt("user_limit"),
-                    result.getBoolean("user_is_admin")
-            );
+                    result.getBoolean("user_is_admin"));
+            preparedStatement.close();
+            result.close();
+            return user;
 
         } catch (SQLException e) {
             logger.warn("SQLException in User.get()");
@@ -74,7 +78,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     public boolean update(User user) {
-        Connection connection = DBConnection.initConnection();
+        Connection connection = DBConnection.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET(" +
                     " user_firstName, user_lastName, user_mail, user_password, user_limit, user_is_admin)" +
@@ -87,6 +91,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setBoolean(6, user.isIs_admin());
             preparedStatement.setInt(7, user.getId_user());
             preparedStatement.executeQuery();
+            preparedStatement.close();
             return true;
         } catch (SQLException e) {
             logger.warn("SQLException in User.update()");
@@ -95,12 +100,13 @@ public class UserDaoImpl implements UserDao {
     }
 
     public boolean delete(User user) {
-        Connection connection = DBConnection.initConnection();
+        Connection connection = DBConnection.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("Delete from users " +
                     " WHERE id = ?");
             preparedStatement.setInt(1, user.getId_user());
             preparedStatement.executeQuery();
+            preparedStatement.close();
             return true;
         } catch (SQLException e) {
             logger.warn("SQLException in User.delete()");
@@ -109,7 +115,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     public boolean insert(String firsName, String lastName, String mail, String password, Integer limit, boolean isAdmin, Integer idUser) {
-        Connection connection = DBConnection.initConnection();
+        Connection connection = DBConnection.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("insert users (" +
                     " user_firstName, user_lastName, user_mail, user_password, user_limit, user_is_admin, user_id)" +
@@ -122,6 +128,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setBoolean(6, isAdmin);
             preparedStatement.setInt(7, idUser);
             preparedStatement.executeQuery();
+            preparedStatement.close();
             return true;
         } catch (SQLException e) {
             logger.warn("SQLException in User.insert()");
@@ -130,11 +137,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     public Integer insert(String firsName, String lastName, String mail, String password, Integer limit) {
-        Connection connection = DBConnection.initConnection();
+        Connection connection = DBConnection.getConnection();
         try {
-            logger.debug("mail="+mail+" password="+password+" firsName="+firsName+" lastName="+lastName);
-            logger.debug(limit);
-
             PreparedStatement preparedStatement = connection.prepareStatement("insert into users (" +
                     " user_firstname, user_lastname, user_mail, user_password, user_limit, user_is_admin)" +
                     " values (?, ?, ?, ?, ?, ?) RETURNING user_id");
@@ -145,10 +149,12 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setInt(5, limit);
             preparedStatement.setBoolean(6, false);
 
-            logger.warn(preparedStatement.getMetaData());
             ResultSet result = preparedStatement.executeQuery();
             result.next();
-            return result.getInt(1);
+            int r = result.getInt(1);
+            preparedStatement.close();
+            result.close();
+            return r;
         } catch (SQLException e) {
             logger.warn("SQLException in User.insert()");
             return -1;
@@ -156,7 +162,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     public User findUserByLoginAndPassword(String login, String password) {
-        Connection connection = DBConnection.initConnection();
+        Connection connection = DBConnection.getConnection();
         try {
             PreparedStatement preparedStatement = connection
                     .prepareStatement("select * from users where user_mail = ? and user_password = ?");
@@ -166,19 +172,21 @@ public class UserDaoImpl implements UserDao {
             ResultSet result = preparedStatement.executeQuery();
 
             if (result.next()) {
-                return new User(
+                User user = new User(
                         result.getInt("user_id"),
                         result.getString("user_firstname"),
                         result.getString("user_lastname"),
                         result.getString("user_mail"),
                         result.getString("user_password"),
                         result.getInt("user_limit"),
-                        result.getBoolean("user_is_admin")
-                );
+                        result.getBoolean("user_is_admin"));
+                preparedStatement.close();
+                result.close();
+                return user;
             }
             return null;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn("SQLException in User.findUserByLoginAndPassword()");
             return null;
         }
     }

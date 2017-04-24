@@ -10,4 +10,5 @@ import java.util.List;
 public interface PlanService {
 
     public List<Plan> getAllPlans();
+    public boolean deletePlanById(Integer id);
 }
