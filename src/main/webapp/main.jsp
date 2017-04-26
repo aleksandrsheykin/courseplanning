@@ -21,9 +21,14 @@
             <ul class="nav navbar-nav">
                 <li><a href="index">Index</a></li>
                 <li class="active"><a href="main">Main</a></li>
-                <li><a href="login">Login</a></li>
-                <li><a href="registration">Registration</a></li>
+                <% if((Boolean) request.getAttribute("userIsAdmin")) { %>
+                    <li><a href="admin">AdminPanel</a></li>
+                <% } %>
+                <li><a href="products">Products</a></li>
                 <li><a href="logout">Logout</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><%=request.getAttribute("userName")%></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

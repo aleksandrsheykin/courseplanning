@@ -1,8 +1,10 @@
 package main.controllers;
 
+import main.models.pojo.User;
 import main.services.UserService;
 import main.services.UserServiceImpl;
 import org.apache.log4j.Logger;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -31,19 +33,26 @@ public class RegistrationController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        boolean successReg = false;
+        if (userService.userExist(req.getParameter("mail"))) {
+            userService.sendErrorAndParameters(req, "User with this mail already exist", "mail");
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/registration.jsp");
+            dispatcher.forward(req, resp);
+        }
 
-        successReg = userService.registration(req.getParameter("mail"),
+        User newUser = userService.registration(req.getParameter("mail"),
                 req.getParameter("password"),
                 req.getParameter("firstName"),
                 req.getParameter("lastName"),
                 Integer.valueOf(req.getParameter("limit")));
 
-        if (successReg) {
-            req.getSession().setAttribute("userLogin", req.getParameter("mail"));
+        if (newUser != null) {
+            req.getSession().setAttribute("userLogin", newUser.getMail());
+            req.getSession().setAttribute("userId", newUser.getIdUser());
             resp.sendRedirect(req.getContextPath() + "/main");
         } else {
-            resp.sendRedirect(req.getContextPath() + "/error");
+            userService.sendErrorAndParameters(req, "Oh sorry! Registration error, try again later", "");
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/registration.jsp");
+            dispatcher.forward(req, resp);
         }
     }
 }

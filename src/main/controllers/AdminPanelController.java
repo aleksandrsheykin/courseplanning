@@ -1,5 +1,9 @@
 package main.controllers;
 
+import main.services.PlanService;
+import main.services.PlanServiceImpl;
+import main.services.UserService;
+import main.services.UserServiceImpl;
 import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
@@ -14,10 +18,12 @@ import java.io.IOException;
  */
 public class AdminPanelController extends HttpServlet {
     private static Logger logger = Logger.getLogger(AdminPanelController.class);
+    public static UserService userService = new UserServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/adminPanel.jsp");
+        req.setAttribute("userList", userService.getAllUsers());
         dispatcher.forward(req, resp);
     }
 

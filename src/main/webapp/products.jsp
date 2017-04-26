@@ -20,11 +20,15 @@
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="index">Index</a></li>
-                <li class="active"><a href="main">Main</a></li>
-                <li><a href="login">Login</a></li>
-                <li><a href="registration">Registration</a></li>
-                <li><a href="admin">AdminPanel</a></li>
+                <li><a href="main">Main</a></li>
+                <% if((Boolean) request.getAttribute("userIsAdmin")) { %>
+                    <li><a href="admin">AdminPanel</a></li>
+                <% } %>
+                <li class="active"><a href="products">Products</a></li>
                 <li><a href="logout">Logout</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><%=request.getAttribute("userName")%></a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -34,14 +38,11 @@
 
     <div class="starter-template">
         <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-
-                <H1>ERROR</H1>
-                <h2>Видимо что-то случилось (:</h2>
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
 
             </div>
-            <div class="col-md-3"></div>
+            <div class="col-md-2"></div>
         </div>
     </div>
 </div>

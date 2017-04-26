@@ -1,6 +1,8 @@
 package main.models.connection;
 
 
+import main.controllers.LoginController;
+import org.apache.log4j.Logger;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
 
@@ -12,6 +14,13 @@ import java.sql.SQLException;
  * Created by admin on 19.04.2017.
  */
 public class DBConnection {
+
+    private static DataSource datasource = new DataSource();
+    static {
+        initPool();
+    }
+
+    private static Logger logger = Logger.getLogger(DBConnection.class);
 
     public static Connection initConnection() {
         java.sql.Connection connection = null;
@@ -30,7 +39,7 @@ public class DBConnection {
         return connection;
     }
 
-    public static Connection getConnection() {
+    private static void initPool() {
         PoolProperties p = new PoolProperties();
         p.setUrl("jdbc:postgresql://localhost/shopping_planning");
         p.setDriverClassName("org.postgresql.Driver");
@@ -54,14 +63,16 @@ public class DBConnection {
         p.setJdbcInterceptors(
                 "org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;"+
                         "org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer");
-        DataSource datasource = new DataSource();
+
         datasource.setPoolProperties(p);
+    }
+
+    public static Connection getConnection() {
         try {
             return datasource.getConnection();
         } catch (SQLException e) {
-            e.printStackTrace();
-            Connection connection = null;
-            return connection;
+            logger.error("SQLException in DBConnection.getConnection()");
+            return null;
         }
     }
 }

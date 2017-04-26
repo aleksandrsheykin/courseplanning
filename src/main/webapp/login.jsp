@@ -23,7 +23,6 @@
                 <li><a href="main">Main</a></li>
                 <li class="active"><a href="login">Login</a></li>
                 <li><a href="registration">Registration</a></li>
-                <li><a href="logout">Logout</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

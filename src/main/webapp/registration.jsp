@@ -23,7 +23,6 @@
                 <li><a href="main">Main</a></li>
                 <li><a href="login">Login</a></li>
                 <li class="active"><a href="registration">Registration</a></li>
-                <li><a href="logout">Logout</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -36,17 +35,47 @@
             <div class="col-md-4"></div>
             <div class="col-md-4">
 
+                <% String errorMsg = (String) request.getAttribute("errorMsg");
+                 String firstNameError = (String) request.getAttribute("firstNameError");
+                 String lastNameError = (String) request.getAttribute("lastNameError");
+                 String limitError = (String) request.getAttribute("limitError");
+                 String mailError = (String) request.getAttribute("mailError"); %>
+
                 <form class="form" action="/planning/registration" method="post">
                     <h2 class="form-signin-heading">Registration</h2>
 
-                    <input type="text" class="form-control" placeholder="firstName" name="firstName" required autofocus>
-                    <input type="text" class="form-control" placeholder="lastName" name="lastName" required>
-                    <input type="number" class="form-control" placeholder="limit" name="limit" required>
-                    <input type="email" class="form-control" placeholder="Mail" name="mail" required>
-                    <input type="password" class="form-control" placeholder="Password" name="password" required>
-                    <button class="btn btn-lg btn-success btn-block" type="submit" name="registration">Registration</button>
+                    <div class="form-group <%=(firstNameError != null)?"has-error":"" %>">
+                        <input type="text" class="form-control" placeholder="firstName" name="firstName" pattern=".{4,128}" required autofocus
+                            <%=(errorMsg != null)?"value='"+request.getAttribute("firstName")+"'":"" %> >
+                    </div>
+
+                    <div class="form-group <%=(lastNameError != null)?"has-error":"" %>">
+                        <input type="text" class="form-control" placeholder="lastName" name="lastName" pattern=".{4,128}" required
+                            <%=(errorMsg != null)?"value='"+request.getAttribute("lastName")+"'":"" %> >
+                    </div>
+
+                    <div class="form-group <%=(limitError != null)?"has-error":"" %>">
+                        <input type="number" class="form-control" placeholder="limit" name="limit" min="1" max="2147483646" required
+                            <%=(errorMsg != null)?"value='"+request.getAttribute("limit")+"'":"" %> >
+                    </div>
+
+                    <div class="form-group <%=(mailError != null)?"has-error":"" %>">
+                        <input type="email" class="form-control" placeholder="Mail" name="mail" pattern=".{4,128}" required
+                            <%=(errorMsg != null)?"value='"+request.getAttribute("mail")+"'":"" %> >
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Password" name="password" pattern=".{8,25}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-lg btn-success btn-block" type="submit" name="registration">Registration</button>
+                    </div>
                 </form>
 
+                <%if(errorMsg != null) {%>
+                    <div class="alert alert-danger"><%=errorMsg%></div>
+                <% } %>
             </div>
             <div class="col-md-4"></div>
         </div>

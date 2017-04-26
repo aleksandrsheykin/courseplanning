@@ -4,6 +4,7 @@ import main.models.pojo.User;
 import main.services.UserService;
 import main.services.UserServiceImpl;
 import org.apache.log4j.Logger;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -37,8 +38,9 @@ public class LoginController extends HttpServlet {
 
         User user = userService.auth(login, password);
         if (user != null) {
-            req.getSession().setAttribute("userLogin", login);
-            if (user.isIs_admin()) {
+            req.getSession().setAttribute("userLogin", user.getMail());
+            req.getSession().setAttribute("userId", user.getIdUser());
+            if (user.isAdmin()) {
                 req.getSession().setAttribute("isAdmin", "1");
             }
             resp.sendRedirect(req.getContextPath() + "/main");
@@ -47,6 +49,6 @@ public class LoginController extends HttpServlet {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
             dispatcher.forward(req, resp);
         }
-
     }
+
 }

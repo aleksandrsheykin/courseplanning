@@ -33,6 +33,10 @@
     <servlet-name>LogoutController</servlet-name>
     <servlet-class>main.controllers.LogoutController</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>ProductController</servlet-name>
+    <servlet-class>main.controllers.ProductController</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>default</servlet-name>
@@ -72,6 +76,10 @@
     <servlet-name>LogoutController</servlet-name>
     <url-pattern>/logout</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ProductController</servlet-name>
+    <url-pattern>/products</url-pattern>
+  </servlet-mapping>
 
   <filter-mapping>
     <filter-name>WhiteFilter</filter-name>
@@ -84,6 +92,10 @@
   <filter-mapping>
     <filter-name>AdminFilter</filter-name>
     <url-pattern>/admin</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>WhiteFilter</filter-name>
+    <url-pattern>/products</url-pattern>
   </filter-mapping>
 
 </web-app>
