@@ -37,22 +37,22 @@ public class RegistrationController extends HttpServlet {
             userService.sendErrorAndParameters(req, "User with this mail already exist", "mail");
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/registration.jsp");
             dispatcher.forward(req, resp);
-        }
-
-        User newUser = userService.registration(req.getParameter("mail"),
-                req.getParameter("password"),
-                req.getParameter("firstName"),
-                req.getParameter("lastName"),
-                Integer.valueOf(req.getParameter("limit")));
-
-        if (newUser != null) {
-            req.getSession().setAttribute("userLogin", newUser.getMail());
-            req.getSession().setAttribute("userId", newUser.getIdUser());
-            resp.sendRedirect(req.getContextPath() + "/main");
         } else {
-            userService.sendErrorAndParameters(req, "Oh sorry! Registration error, try again later", "");
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/registration.jsp");
-            dispatcher.forward(req, resp);
+            User newUser = userService.registration(req.getParameter("mail"),
+                    req.getParameter("password"),
+                    req.getParameter("firstName"),
+                    req.getParameter("lastName"),
+                    Integer.valueOf(req.getParameter("limit")));
+
+            if (newUser != null) {
+                req.getSession().setAttribute("userLogin", newUser.getMail());
+                req.getSession().setAttribute("userId", newUser.getIdUser());
+                resp.sendRedirect(req.getContextPath() + "/main");
+            } else {
+                userService.sendErrorAndParameters(req, "Oh sorry! Registration error, try again later", "");
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/registration.jsp");
+                dispatcher.forward(req, resp);
+            }
         }
     }
 }
